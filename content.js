@@ -61,8 +61,14 @@ function setMediaSpeed(speed) {
   
   mediaElements.forEach(media => {
     try {
+      // Mark as extension-controlled to prevent overlay on manual changes
+      media.dataset.extensionControlled = 'true';
       media.playbackRate = speed;
       media.dataset.speedPreference = speed;
+      // Remove flag after a short delay
+      setTimeout(() => {
+        delete media.dataset.extensionControlled;
+      }, 500);
       applied = true;
     } catch (e) {
       console.error('Error setting playback rate:', e);
@@ -128,19 +134,29 @@ function setupMediaRateWatcher() {
     if (media.dataset.rateWatcher) return;
     media.dataset.rateWatcher = 'true';
     
-    Object.defineProperty(media, 'playbackRate', {
-      get: function() {
-        return this._playbackRate || 1;
-      },
-      set: function(value) {
-        this._playbackRate = value;
-        if (isOverlayVisible) {
-          showOverlay(value);
+    // Store original playbackRate property descriptor
+    const originalDescriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'playbackRate') ||
+                               Object.getOwnPropertyDescriptor(Object.getPrototypeOf(media), 'playbackRate');
+    
+    // Watch for changes but don't block actual setting
+    let lastSpeed = media.playbackRate;
+    const checkInterval = setInterval(() => {
+      if (media.playbackRate !== lastSpeed) {
+        lastSpeed = media.playbackRate;
+        if (isOverlayVisible && !media.dataset.extensionControlled) {
+          showOverlay(media.playbackRate);
         }
       }
-    });
+    }, 100);
     
-    media._playbackRate = media.playbackRate;
+    // Clean up when element is removed
+    const observer = new MutationObserver(() => {
+      if (!document.contains(media)) {
+        clearInterval(checkInterval);
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   });
 }
 
