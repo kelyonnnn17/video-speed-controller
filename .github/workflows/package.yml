@@ -11,6 +11,8 @@ on:
 jobs:
   package:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout code
@@ -19,7 +21,11 @@ jobs:
       - name: Get version from manifest
         id: get_version
         run: |
-          VERSION=$(node -p "require('./manifest.json').version")
+          if command -v node &> /dev/null; then
+            VERSION=$(node -p "require('./manifest.json').version")
+          else
+            VERSION=$(grep -o '"version": "[^"]*"' manifest.json | cut -d'"' -f4)
+          fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extension version: $VERSION"
       
@@ -72,6 +78,5 @@ jobs:
             
           draft: false
           prerelease: false
-          make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
