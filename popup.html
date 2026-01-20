@@ -1,13 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Speed Controller</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Speed Controller</title>
     <link rel="stylesheet" type="text/css" href="style.css"> 
   </head>
   <body>
-    <h3>Video Speed</h3>
-    <input type="range" id="speed" min="1" max="25" step="0.1" value="1">
-    <p>Speed: <span id="speedValue">1x</span></p>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="header">
+        <h1 class="title">Speed Control</h1>
+        <button class="settings-btn" id="settingsBtn" aria-label="Settings">⚙</button>
+      </header>
+
+      <!-- Current Speed Display -->
+      <div class="speed-display">
+        <span class="speed-value" id="currentSpeed">1.00</span>
+        <span class="speed-unit">×</span>
+      </div>
+
+      <!-- Speed Slider -->
+      <div class="slider-section">
+        <input 
+          type="range" 
+          id="speed" 
+          class="speed-slider"
+          min="0.25" 
+          max="10" 
+          step="0.05" 
+          value="1"
+        >
+        <div class="slider-labels">
+          <span>0.25×</span>
+          <span id="speedValue">1×</span>
+          <span>10×</span>
+        </div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="settings-panel" id="settingsPanel" style="display: none;">
+        <div class="setting-item">
+          <label class="setting-label">
+            <input type="checkbox" id="perSiteSpeed" class="setting-checkbox">
+            <span>Remember speed per site</span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label class="setting-label">
+            <input type="checkbox" id="showOverlay" class="setting-checkbox" checked>
+            <span>Show speed overlay</span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label class="setting-label">
+            <input type="checkbox" id="autoApply" class="setting-checkbox" checked>
+            <span>Auto-apply on load</span>
+          </label>
+        </div>
+      </div>
+    </div>
     <script src="popup.js"></script>
   </body>
 </html>

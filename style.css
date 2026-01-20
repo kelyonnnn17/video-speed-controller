@@ -1,169 +1,194 @@
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    transition: all 0.02s ease-in-out;
-  }
-  
-  body {
-    width: 250px; 
-    margin: 0 auto;
-    background: linear-gradient(145deg, #2b2b2b, #404040); 
-    color: #dcdcdc; 
-    padding: 20px; 
-    border: 1px solid #444; 
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 14px; 
-    overflow: hidden;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  h3 {
-    font-size: 20px; 
-    font-weight: 700;
-    color: #e0e0e0;
-    letter-spacing: 0.5px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    opacity: 0.9;
-    text-align: center;
-    transition: opacity 0.02s ease-in-out; 
-  }
-  
-  h3:hover {
-    opacity: 1; 
-  }
-  
-  
-  input[type="range"] {
-    width: 100%;
-    height: 8px; 
-    background: #555;
-    border-radius: 0; 
-    outline: none;
-    appearance: none;
-    margin-bottom: 20px;
-    cursor: pointer;
-    transition: background 0.02s ease-in-out; 
-  }
-  
-  
-  input[type="range"]::-webkit-slider-thumb {
-    width: 20px;
-    height: 20px;
-    background: #4f9bff;
-    border: 3px solid #3a8ec3;
-    transition: background 0.02s ease-in-out, transform 0.02s ease-in-out; 
-  }
-  
-  input[type="range"]:hover::-webkit-slider-thumb {
-    background: #58aef1;
-    transform: scale(1.1); 
-  }
-  
-  
-  input[type="range"]:hover {
-    background: #666;
-  }
-  
-  
-  .progress-bar {
-    width: 100%;
-    height: 8px; 
-    background: #444;
-    border-radius: 0;
-    margin-bottom: 20px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-  }
-  
-  
-  #progress-bar {
-    height: 100%;
-    background: #4f9bff;
-    border-radius: 0; 
-    width: 0%;
-    transition: width 0.02s ease-in-out; 
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4); 
-  }
-  
-  
-  #speedValue {
-    font-size: 16px; 
-    font-weight: 500;
-    color: #4f9bff;
-    text-align: center;
-    letter-spacing: 1px;
-    margin-top: 15px;
-    opacity: 0.9;
-    transition: color 0.02s ease-in-out, transform 0.02s ease-in-out; 
-  }
-  
-  #speedValue:hover {
-    color: #58aef1;
-    transform: scale(1.05); 
-  }
-  
-  
-  input[type="range"]:focus {
-    outline: 3px solid #4f9bff; 
-  }
-  
-  
-  body, h3, #speedValue {
-    color: #e0e0e0;
-  }
-  
-  
-  @media (max-width: 480px) {
-    body {
-      padding: 15px;
-      font-size: 14px;
-    }
-  
-    h3 {
-      font-size: 18px;
-    }
-  
-    input[type="range"] {
-      height: 6px; 
-    }
-  
-    .progress-bar {
-      height: 6px; 
-    }
-  }
-  
-  
-  .light-mode-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #fff;
-    color: #333;
-    padding: 8px 16px;
-    border-radius: 30px;
-    cursor: pointer;
-    border: none;
-    font-size: 14px;
-    transition: background-color 0.02s ease-in-out, color 0.02s ease-in-out;
-  }
-  
-  .light-mode-toggle:hover {
-    background-color: #f1f1f1;
-    color: #4f9bff;
-  }
-  
-  
-  body {
-    background: rgba(31, 31, 31, 0.85);
-    backdrop-filter: blur(10px); 
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3); 
-  }
-  
+body {
+  width: 200px;
+  background: #ffffff;
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+}
+
+.app-container {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.settings-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: #666;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.settings-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.settings-btn.active {
+  background: #e0e0e0;
+}
+
+/* Speed Display */
+.speed-display {
+  text-align: center;
+  padding: 5px 0;
+}
+
+.speed-value {
+  font-size: 26px;
+  font-weight: 600;
+  color: #333;
+}
+
+.speed-unit {
+  font-size: 16px;
+  color: #666;
+  margin-left: 3px;
+}
+
+/* Slider */
+.slider-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.speed-slider {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.speed-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.speed-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.speed-slider::-moz-range-track {
+  background: #e0e0e0;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #999;
+}
+
+#speedValue {
+  color: #333;
+  font-weight: 500;
+}
+
+/* Preset Buttons */
+.preset-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+.preset-btn {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 8px 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.preset-btn:hover {
+  background: #e8e8e8;
+  border-color: #ccc;
+}
+
+.preset-btn.active {
+  background: #333;
+  border-color: #333;
+  color: white;
+}
+
+/* Settings Panel */
+.settings-panel {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+}
+
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  user-select: none;
+  line-height: 1.5;
+}
+
+.setting-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #333;
+}

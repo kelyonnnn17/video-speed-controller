@@ -1,0 +1,77 @@
+name: Package Extension
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Get version from manifest
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./manifest.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extension version: $VERSION"
+      
+      - name: Create extension package
+        run: |
+          ZIP_NAME="video-speed-controller-v${{ steps.get_version.outputs.version }}.zip"
+          
+          # Create zip excluding unnecessary files
+          zip -r "$ZIP_NAME" . \
+            -x "*.git*" \
+            -x "*.github*" \
+            -x "*.DS_Store*" \
+            -x "*node_modules*" \
+            -x "*.zip" \
+            -x "*.crx" \
+            -x "*.pem" \
+            -x "*.md" \
+            -x "package.sh" \
+            -x ".gitignore"
+          
+          echo "Package created: $ZIP_NAME"
+          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
+      
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-package
+          path: "*.zip"
+          retention-days: 30
+      
+      - name: Create Release (on main/master)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "*.zip"
+          tag_name: "v${{ steps.get_version.outputs.version }}"
+          name: "Video Speed Controller v${{ steps.get_version.outputs.version }}"
+          body: |
+            ## Video Speed Controller Extension
+            
+            **Version:** ${{ steps.get_version.outputs.version }}
+            
+            ### Installation:
+            1. Download the `.zip` file
+            2. Extract the zip file
+            3. Open Chrome and go to `chrome://extensions/`
+            4. Enable "Developer mode" (toggle in top-right)
+            5. Click "Load unpacked"
+            6. Select the extracted folder
+            
+          draft: false
+          prerelease: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

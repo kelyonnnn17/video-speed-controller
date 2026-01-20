@@ -1,0 +1,21 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Extension build files
+*.zip
+*.crx
+*.pem
+
+# Development files
+node_modules/
+.env
+.env.local
+package-lock.json
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
